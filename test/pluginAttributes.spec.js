@@ -1,5 +1,3 @@
-
-
 const expect = require('expect.js');
 const plugin = require('../index.js');
 
@@ -9,6 +7,6 @@ describe('plugin attributes', function() {
   });
 
   it('should contain version', function() {
-    expect(plugin.register.attributes.version).to.equal('0.2.0');
+    expect(plugin.register.attributes.version).to.be.ok;
   });
 });
