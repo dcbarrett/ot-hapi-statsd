@@ -1,34 +1,33 @@
-
-Hapi Statsd (Plugin)
+ot-hapi-statsd (Plugin)
 ==================
 
+## CURRENT REQUIREMENTS
+---------
+node >= 4
+
+## CODING STANDARDS
+Don't use `var`.
+Use `const` where possible, `let` where not.
+
+DESCRIPTION
+===========
 Hapi.js Plugin for [statsd](https://github.com/etsy/statsd).
 
 This will track your
-    - Count: incoming Request All
     - Count: incoming Request by path
-    - Timing: response for all paths
     - Timing: response by path
-    - Count: total response
-    - Count: response by status code
-    - Count: response by url
     - Count: response by url and status code
 
 STATSD
 =======
     - For Ex' [GET] /users/all -> Response [200]
     - onRequest
-        - Count: increment `request.in.users.all.counter'
-        - Count: increment `request.in.Total.counter`
+        - Count: increment `request.in.users.all'
     - onPreResponse
-        - Count increment `response.out.Total.counter`
-        - Count increment `response.out.Total.200.counter`
-        - Count increment `response.out.users.all.counter`
-        - Count increment `response.out.users.all.200.counter`
-        - Timer `request.Total.timer`
-        - Timer `request.users.all.timer`
+        - Count increment `response.out.users.all.200`
+        - Timer `request.users.all`
 
-[![Build Status](https://secure.travis-ci.org/doron2402/hapi-statsd.png?branch=master)](http://travis-ci.org/doron2402/hapi-statsd)
+[![Build Status](https://secure.travis-ci.org/opentable/ot-hapi-statsd.png?branch=master)](http://travis-ci.org/opentable/ot-hapi-statsd)
 
 Quick tour
 ----------
@@ -37,7 +36,7 @@ Quick tour
 //SERVER:
 
 server.register([
-    register: require('hapi-statsd'),
+    register: require('ot-hapi-statsd'),
     options: {
         host: 'statsd.localhost', // your statsd host
         prefix: 'node-app.development.local.', // Prefix
@@ -51,14 +50,10 @@ server.register([
 ])...
 ```
 
-
 Github
 -------------
-
-Check the [GitHub issues](https://github.com/doron2402/hapi-statsd/issues).
-
+Check the [GitHub issues](https://github.com/opentable/ot-hapi-statsd/issues).
 
 LICENSE
 -------
-
-[LICENSE](https://github.com/doron2402/hapi-statsd/blob/master/LICENSE).
+[LICENSE](https://github.com/opentable/ot-hapi-statsd/blob/master/LICENSE).
