@@ -1,6 +1,8 @@
+/* eslint-disable no-param-reassign */
 const Sdc = require('statsd-client');
 const Joi = require('joi');
 const _ = require('lodash');
+const prefixBuilder = require('./prefixBuilder');
 
 let sdc;
 
@@ -48,7 +50,8 @@ exports.register = function registerStatsdPlugin(plugin, options, next) {
     port: Joi.number().optional(),
     debug: Joi.boolean().optional(),
     tcp: Joi.boolean().optional(),
-    socketTimeout: Joi.number().optional()
+    socketTimeout: Joi.number().optional(),
+    separateClusterName: Joi.boolean().optional()
   });
 
   const validate = Joi.validate(options, schemaOptions);
@@ -56,16 +59,18 @@ exports.register = function registerStatsdPlugin(plugin, options, next) {
     return next(validate.error);
   }
 
+  options.prefix = prefixBuilder(options);
+
   sdc = new Sdc(options);
 
-  plugin.ext('onRequest', function(request, reply) {
+  plugin.ext('onRequest', function onRequest(request, reply) {
     const url = buildUrl(request.url.pathname);
     sdc.increment(`request.in.${url}`);
     _.set(request, 'app.statsd.timer', new Date());
     reply.continue();
   });
 
-  plugin.ext('onPreResponse', function(request, reply) {
+  plugin.ext('onPreResponse', function onPreResponse(request, reply) {
     const url = buildUrl(request.url.pathname);
     const timer = _.get(request, 'app.statsd.timer', new Date());
     const deltaTimer = new Date() - timer;

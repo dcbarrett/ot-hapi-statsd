@@ -38,14 +38,15 @@ Quick tour
 server.register([
     register: require('ot-hapi-statsd'),
     options: {
-        host: 'statsd.localhost', // your statsd host
-        prefix: 'node-app.development.local.', // Prefix
-        port: 8125, //must be a number default 8125
-        debug: true //could be true/false
-        removePath: {
+        host: 'statsd.localhost', // Required. Your statsd host
+        prefix: 'node-app.', // Required. Service name followed by a '.' 
+        port: 8125, // Optional. Must be a number default 8125
+        debug: true // Optional. Could be true/false
+        removePath: { // Optional
           number: 1, // MUST BE INTEGER
-          regex: '/\[[0-9]+\]/' //when to remove part of the path when empty it will on all the routes
-        }
+          regex: '/\[[0-9]+\]/' // When to remove part of the path when empty it will on all the routes
+        },
+        separateClusterName: true // Optional. Defaults false. Determines whether to separate the k8s prefix from the instance. e.g. k8s-cluster.instance1 vs k8s-cluster-instance1
     }
 ])...
 ```
